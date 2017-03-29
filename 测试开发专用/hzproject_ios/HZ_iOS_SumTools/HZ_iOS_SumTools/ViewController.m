@@ -54,6 +54,9 @@
 //    NSDictionary *dict = NSDictionaryOfVariableBindings(fileName,fileSize,urlPath,time,fileType,finishStatus);
 //   NSString *path= [[[NSFileManager shardInstance] getDocumentPath] stringByAppendingPathComponent:];
     UILabel *label = [[UILabel alloc]init];
+    /*new dshahhshs sdshkadhsajkh */
+    
+    
     
     NSString *path=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];;
     path=[path stringByAppendingPathComponent:@"Upload.sqlite"];
@@ -189,7 +192,7 @@
 - (void)hh{
     [Tools Addtarget:self select:@selector(cc) andTitle:@"热修复完成"];
 }
-- (void)cc{
+- (void)mmmc{
 
 }
 @end
