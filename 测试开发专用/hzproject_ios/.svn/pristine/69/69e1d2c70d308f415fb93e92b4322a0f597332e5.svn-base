@@ -1,0 +1,27 @@
+//
+//  HTTPTools.h
+//  HZ_Haiergc
+//
+//  Created by hou on 16/4/11.
+//  Copyright © 2016年 HZ. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "AFNetworking.h"
+@interface HTTPTools : NSObject
+#pragma mark- postHTTP
++ (void)PostAFHttpWithURL:(NSString *)URL andIntPutKeys:(NSDictionary *)dic Success:(void(^)(id dataArr))success failure:(void(^)(id error))failure;
+//带菊花样式
++ (void)PostAFHttpWithURL:(NSString *)URL andIntPutKeys:(NSDictionary *)dic andAddHudTo:(UIView *)view Success:(void(^)(id dataArr))success failure:(void(^)(id error))failure;
+#pragma mark-GetHTTP
++ (void)GetAFHttpWithURL:(NSString *)URL Success:(void(^)(id dataArr))success failure:(void(^)(id error))failure;
+
+/*
+ webService图片文件上传
+ */
++(void)webUPLoadImagesWithImages:(UIImage *)image andFileName:(NSString *)fileName success:(void(^)(NSArray *dataArray))success fail:(void(^)())fail;
+/*
+ AF以文件的形式图片上传,也可文件上传.
+ */
++ (void)AFUPLoadImagesWithImages:(UIImage *)image andFileName:(NSString *)fileName success:(void (^)(NSArray *))success fail:(void (^)())fail;
+@end

@@ -1,0 +1,137 @@
+//
+//  HTTPTools.m
+//  HZ_Haiergc
+//
+//  Created by hou on 16/4/11.
+//  Copyright © 2016年 HZ. All rights reserved.
+//
+
+#import "HTTPTools.h"
+
+@implementation HTTPTools
+
++ (void)PostAFHttpWithURL:(NSString *)URL andIntPutKeys:(NSDictionary *)dic Success:(void(^)(id dataArr))success failure:(void(^)(id error))failure{
+    
+    AFHTTPRequestOperationManager *manger = [AFHTTPRequestOperationManager manager];
+    manger.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manger POST:URL parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //沦为夏天的电影只能重播观众
+        if ([operation.responseString  isEqualToString:@"1"]||[operation.responseString  isEqualToString:@"0"]) {
+            success(operation.responseString);
+        }else{
+            success([NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       
+        failure(error);
+    }];
+
+}
+//带菊花样式
++ (void)PostAFHttpWithURL:(NSString *)URL andIntPutKeys:(NSDictionary *)dic andAddHudTo:(UIView *)view Success:(void(^)(id dataArr))success failure:(void(^)(id error))failure{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.removeFromSuperViewOnHide = YES;
+    AFHTTPRequestOperationManager *manger = [AFHTTPRequestOperationManager manager];
+    manger.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manger POST:URL parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //沦为夏天的电影只能重播
+        [hud hide:YES];
+        if ([operation.responseString  isEqualToString:@"1"]||[operation.responseString  isEqualToString:@"0"]) {
+            success(operation.responseString);
+        }else{
+            success([NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [hud hide:YES];
+
+        
+    }];
+    
+}
++ (void)GetAFHttpWithURL:(NSString *)URL Success:(void(^)(id dataArr))success failure:(void(^)(id error))failure{
+
+    AFHTTPRequestOperationManager *manger = [AFHTTPRequestOperationManager manager];
+    manger.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manger GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        success([NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil]);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(error);
+    }];
+
+
+
+}
++(void)webUPLoadImagesWithImages:(UIImage *)image andFileName:(NSString *)fileName success:(void(^)(NSArray *dataArray))success fail:(void(^)())fail{
+        UIImage *aaa = [self scaleFromImage:image toSize:CGSizeMake(1000, 1000)];
+        NSData *imagedddd = UIImageJPEGRepresentation(aaa,0.001);
+        NSString *pictureDataString=[imagedddd base64Encoding];
+    HZHttpRequest *request = [[HZHttpRequest  alloc]init];
+    //调用webservice 接口
+//  [request requestWithJSONString:(NSDictionary *) URLClass:<#(NSString *)#> Method:<#(NSString *)#> HUDAddToView:<#(UIView *)#> HUDLabelText:<#(NSString *)#> FinishCallbackBlock:<#^(NSString *resultStr)block#>]
+    
+}
++ (void)AFUPLoadImagesWithImages:(UIImage *)image andFileName:(NSString *)fileName success:(void (^)(NSArray *))success fail:(void (^)())fail{
+//接口的 的key 
+    NSDictionary *parameters = @{@"uid": @"EFGH"};//对应上面接口非图片的参数 file是图片的key
+    
+    //创建请求
+    
+  AFHTTPRequestOperationManager  *manager = [AFHTTPRequestOperationManager manager];
+    
+    //设置请求的解析器为AFHTTPResponseSerializer（用于直接解析数据NSData），默认为AFJSONResponseSerializer（用于解析JSON）
+    
+       manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    //发送POST请求，添加需要发送的文件，此处为图片
+    
+    [manager POST:@"接口地址" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        //添加图片，并对其进行压缩（0.0为最大压缩率，1.0为最小压缩率）
+        
+        //        UIImagePNGRepresentation(<#UIImage *image#>)
+        
+        NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+        
+        //添加要上传的文件，此处为图片,如果是多图就for循环添加
+        
+        [formData appendPartWithFileData:imageData name:@"file(看上面接口，服务器放图片的参数名Key）" fileName:@"图片名字(随便写一个，（注意后缀名）如果是UIImagePNGRepresentation写XXXX.png,如果是UIImageJPEGRepresentation写XXXX.jpeg)"mimeType:@"文件类型（此处为图片格式，如image/jpeg，对应前面的PNG/JPEG)"];
+        
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        //请求成功（当解析器为AFJSONResponseSerializer时）
+        
+        NSLog(@"Success: %@", responseObject);
+        
+        //请求成功（当解析器为AFHTTPResponseSerializer时）
+        
+        //        NSString *JSONString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        
+        //        NSLog(@"success:%@", JSONString);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        //请求失败
+        
+        NSLog(@"Error: %@", error);
+        
+    }];
+
+
+}
+    // 改变图像的尺寸，方便上传服务器
++(UIImage *) scaleFromImage: (UIImage *) image toSize: (CGSize) size
+    {
+        UIGraphicsBeginImageContext(size);
+        [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return newImage;
+}
+
+@end

@@ -1,0 +1,177 @@
+//
+//  Tools.m
+//  demo
+//
+//  Created by jason on 16/5/24.
+//  Copyright © 2016年 jason. All rights reserved.
+//
+
+#import "Tools.h"
+#import "ELCImagePickerHeader.h"
+//#define title_color  [UIColor colorWithRed:230/255.00 green:64/255.00 blue:100/255.00 alpha:1.0f]
+
+@interface Tools ()
+
+@end
+
+@implementation Tools
+
++ (UILabel *)initWithFrame:(CGRect)frame LabelwithText:(NSString *)text andfont:(UIFont *)font
+{
+    UILabel *label = [[UILabel alloc]init];
+    label.numberOfLines = 0; // 需要把显示行数设置成无限制
+    label.font = [UIFont systemFontOfSize:15];//默认15号字体
+    label.textColor = [UIColor grayColor];//默认灰色字
+    label.font = font;
+    label.text = text;
+    label.textAlignment = NSTextAlignmentCenter;//设置默认居中
+    CGSize size = [self sizeWithString:text font:font];
+    label.frame = CGRectMake(frame.origin.x, frame.origin.y, size.width, size.height);
+    return label;
+    
+}
++ (UILabel *)initWithNormalFrame:(CGRect)frame LabelwithText:(NSString *)text andfont:(UIFont *)font
+{
+    UILabel *label = [[UILabel alloc]init];
+    label.numberOfLines = 0; // 需要把显示行数设置成无限制
+    label.font = [UIFont systemFontOfSize:15];//默认15号字体
+    label.textColor = [UIColor grayColor];//默认灰色字
+    label.font = font;
+    label.text = text;
+    label.textAlignment = NSTextAlignmentCenter;//设置默认居中
+    label.frame = frame;
+    return label;
+    
+}
++ (UIButton *)initWithFrame:(CGRect)frame ButtonWithText:(NSString *)text andfont:(UIFont *)font{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setTitle:text forState:UIControlStateNormal];
+    btn.titleLabel.font = font;
+    btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];//默认灰色字
+    CGSize size = [self sizeWithString:text font:font];
+    btn.frame = CGRectMake(frame.origin.x, frame.origin.y, size.width, size.height);
+    return btn;
+}
++ (UIButton *)initWithNormalFrame:(CGRect)frame ButtonWithText:(NSString *)text andfont:(UIFont *)font andImage:(UIImage *)image1 andSelectImage:(UIImage *)image2{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setTitle:text forState:UIControlStateNormal];
+    [btn setBackgroundImage:image1 forState:UIControlStateNormal];
+    [btn setBackgroundImage:image2 forState:UIControlStateSelected];
+     
+    btn.titleLabel.font = font;
+    btn.selected = NO;
+    btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+   
+    
+    btn.frame = frame;
+    return btn;
+}
+// 定义成方法方便多个label调用 增加代码的复用性
++ (CGSize)sizeWithString:(NSString *)string font:(UIFont *)font
+{
+    
+    CGRect rect = [string boundingRectWithSize:CGSizeMake(ScreenWidth, 8000)//限制最大的宽度和高度
+                                       options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesFontLeading  |NSStringDrawingUsesLineFragmentOrigin//采用换行模式
+                                    attributes:@{NSFontAttributeName:font}//传人的字体字典
+                                       context:nil];
+   
+    
+    return rect.size;
+}
++ (MyTextView *)intWithFrame:(CGRect)frame PlaceHoder:(NSString *)text andfont:(UIFont *)font{
+    //........,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+    MyTextView *my = [[MyTextView alloc]initWithFrame:frame PlaceText:text];
+    my.font = font;
+    return my;
+}
++(void)Addtarget:(UIViewController *)controler select:(SEL)Selcet andTitle:(NSString *)title{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
+UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+   // UIButton *btn;
+    [controler performSelector:Selcet withObject:nil afterDelay:0];
+    
+    
+}];
+UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    
+}];
+[alert addAction:ok];
+[alert addAction:cancle];
+[controler presentViewController:alert animated:YES completion:^{
+    
+}];
+    }
++(void)Addtarget:(UIViewController *)controler select:(SEL)Selcet andTitle:(NSString *)title withTextFieldtext:(void(^)(NSString *text))text{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // UIButton *btn;
+        UITextField *TF =alert.textFields[0];
+        text(TF.text);
+        [controler performSelector:Selcet withObject:nil afterDelay:0];
+        
+        
+    }];
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        // 可以在这里对textfield进行定制，例如改变背景色
+        
+    }];
+    
+    [alert addAction:ok];
+    [alert addAction:cancle];
+    [controler presentViewController:alert animated:YES completion:^{
+        
+    }];
+}
++(void)Addtarget:(UIViewController *)controler  andTitle:(NSString *)title withTextFieldtext:(void(^)(NSMutableArray *textArr))textArr andTextFiledNum:(NSString *)num andPlaceHold:(NSArray *)palceArr{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // UIButton *btn;
+        NSArray *arr = alert.textFields;
+        
+        NSMutableArray *TFArr = [[NSMutableArray alloc]init];
+        for (UITextField *textF in arr) {
+            [TFArr addObject:textF.text];
+        }
+        textArr(TFArr);
+        
+    }];
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    for (int i=0;i<[num intValue]; i++) {
+        [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            // 可以在这里对textfield进行定制，例如改变背景色
+            textField.placeholder =palceArr[i];
+        }];
+    }
+    
+    
+    [alert addAction:ok];
+    [alert addAction:cancle];
+    [controler presentViewController:alert animated:YES completion:^{
+        
+    }];
+}
++ (void)photoPushFromView:(UIViewController *)view{
+    ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initImagePicker];
+    if (ScreenHeight <= 480) { //iPhone4S及以下机型，最多上传5张
+        elcPicker.maximumImagesCount = 5;
+    }else {
+        elcPicker.maximumImagesCount = 9; //Set the maximum number of images to select to 100
+    } 
+    elcPicker.returnsOriginalImage = YES; //Only return the fullScreenImage, not the fullResolutionImage
+    elcPicker.returnsImage = YES; //Return UIimage if YES. If NO, only return asset location information
+    elcPicker.onOrder = YES; //For multiple image selection, display and return order of selected images
+    
+    elcPicker.mediaTypes = @[(NSString *)kUTTypeImage];
+    //   // elcPicker.mediaTypes = @[(NSString *)]
+    //    elcPicker.imagePickerDelegate = self;
+    
+    [view presentViewController:elcPicker animated:YES completion:nil];
+}
+
+@end

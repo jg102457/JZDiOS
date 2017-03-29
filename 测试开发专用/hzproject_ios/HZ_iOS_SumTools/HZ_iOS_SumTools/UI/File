@@ -1,0 +1,27 @@
+UIApplication的周期关键性步骤：
+step 1，点击 app icon 或者从应用程序url（比如在Safari地址栏中输入应用程序url）启动应用程序。
+
+
+step 2，就会进入 UIApplicationDelegate 的
+- (void)applicationDidFinishLaunching:(UIApplication *)application;
+或
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+
+step 3, 如果是从 url 启动的则先进入 UIApplicationDelegate 的
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;
+然后再跳转到step 4；否则直接跳转到step 4；
+
+step 4，进入 UIApplicationDelegate 的
+- (void)applicationDidBecomeActive:(UIApplication *)application;
+
+step 5，进入应用程序主循环，这时应用程序已经是活动的了，用户可以与应用程序交互。
+
+step 6，在 step 5 状态下，如果按住 home 键或者进行任务切换操作，然后跳转到 step 8；
+
+step 7，在 step 5 状态下，应用程序被中断（如来电，来短信），进入 UIApplicationDelegate 的
+- (void)applicationWillResignActive:(UIApplication *)application;
+如果用户选择不处理继续留在当前应用程序，则回到 step 4；如果用户选择处理,则跳转到 step 8；
+
+step 8，进入 UIApplicationDelegate 的
+- (void)applicationWillTerminate:(UIApplication *)application;
+当前应用程序关闭。

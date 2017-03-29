@@ -1,0 +1,63 @@
+PODS:
+  - AFNetworking (3.0.4):
+    - AFNetworking/NSURLSession (= 3.0.4)
+    - AFNetworking/Reachability (= 3.0.4)
+    - AFNetworking/Security (= 3.0.4)
+    - AFNetworking/Serialization (= 3.0.4)
+    - AFNetworking/UIKit (= 3.0.4)
+  - AFNetworking/NSURLSession (3.0.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.0.4)
+  - AFNetworking/Security (3.0.4)
+  - AFNetworking/Serialization (3.0.4)
+  - AFNetworking/UIKit (3.0.4):
+    - AFNetworking/NSURLSession
+  - BlocksKit (2.2.5):
+    - BlocksKit/All (= 2.2.5)
+  - BlocksKit/All (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+    - BlocksKit/MessageUI
+    - BlocksKit/UIKit
+  - BlocksKit/Core (2.2.5)
+  - BlocksKit/DynamicDelegate (2.2.5)
+  - BlocksKit/MessageUI (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+  - BlocksKit/UIKit (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+  - HcdCachePlayer (1.0.0):
+    - Masonry (~> 1.0.1)
+  - Masonry (1.0.1)
+  - MJExtension (3.0.13)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
+  - TZImagePickerController (1.0.9)
+  - XHLaunchAd (2.2.2)
+
+DEPENDENCIES:
+  - AFNetworking (~> 3.0.2)
+  - BlocksKit (~> 2.2.5)
+  - HcdCachePlayer
+  - MJExtension
+  - SDWebImage
+  - TZImagePickerController (~> 1.0.4)
+  - XHLaunchAd (~> 2.2.2)
+
+SPEC CHECKSUMS:
+  AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
+  HcdCachePlayer: 52497ecbf7c98b28f8222c48e999dabb4976f56e
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  TZImagePickerController: 56080f944f0ca5a719b91e4540927e1736cff18f
+  XHLaunchAd: 9641e67970f48e51b633af6c0e43b8b228650bce
+
+PODFILE CHECKSUM: faba0850a7b542f62383d69fa0c803550e3400bd
+
+COCOAPODS: 1.2.0

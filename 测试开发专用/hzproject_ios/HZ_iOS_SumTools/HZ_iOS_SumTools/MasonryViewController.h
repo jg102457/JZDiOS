@@ -1,0 +1,13 @@
+//
+//  MasonryViewController.h
+//  HZ_iOS_SumTools
+//
+//  Created by admin on 16/8/8.
+//  Copyright © 2016年 admin. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface MasonryViewController : UIViewController
+
+@end
